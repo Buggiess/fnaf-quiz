@@ -95,19 +95,20 @@ function showQuestion() {
     for (var i = 0; i < question.options.length; i++) {
         var item = question.options[i];
         var answerBtn = document.createElement("button");
-        answerBtn.textContent = i + 1 + ". " + item;
-        answerBtn.addEventListener("click", function () {
-            checkAnswer(this.textContent);
+        answerBtn.textContent = item;
+        answerBtn.addEventListener("click", function (event) {
+            checkAnswer(event);
         });
         questionsEl.appendChild(answerBtn); 
     }
 }
 
-function checkAnswer(input) {
+function checkAnswer(event) {
     var correctAnswer = questions[cursor].answer;
-    if (input != correctAnswer) {
+    if (event.target.textContent !== questions[cursor].options[correctAnswer]) {
         seconds = Math.max(seconds - 15, 0);
-    }
+        console.log(event.target.textContent);
+}
 }
 
 function endPage() {
@@ -148,7 +149,7 @@ function handleInitialSubmit(event) {
 startBtn.addEventListener("click", quizPage);
 quizEl.addEventListener("click", function (event) {
     if (event.target.matches("button")) {
-        console.log(event.target);
+        console.log(event.target.innerText);
         cursor++;
         if (cursor < questions.length) {
             showQuestion();
