@@ -3,10 +3,13 @@ var questionsEl = document.querySelector("#questions");
 var quizEl = document.querySelector("#quiz");
 var endEl = document.querySelector("#end");
 var titleEl = document.querySelector("#title");
-var timerEl = document.querySelector("timer");
+var timerEl = document.querySelector("#timer");
+var scoresEl = document.querySelector("#scores")
 var startBtn = document.querySelector("#start");
+var submitBtn = document.querySelector("#submit");
 var nameInput = document.querySelector("#name");
 var cursor = 0;
+var seconds = 90;
 
 var questions = [
     {
@@ -37,7 +40,7 @@ var questions = [
             "Henry's daughter",
             "Vanny",
         ],
-        answer: 0
+        answer: 2
     },
     {
         text: "What is underneath the Pizzaplex?",
@@ -65,13 +68,24 @@ function homePage() {
     homeEl.style.display = "block";
     quizEl.style.display = "none";
     endEl.style.display = "none";
+    scoresEl.style.display = "none";
 }
 
 function quizPage() {
     homeEl.style.display = "none";
     quizEl.style.display = "block";
     endEl.style.display = "none";
+    scoresEl.style.display = "none";
     showQuestion();
+    timerEl.textContent = seconds;
+    var timer = setInterval(function () {
+        seconds--;
+        timerEl.textContent = seconds;
+        if (seconds <= 0) {
+            clearInterval(timer)
+            endPage()
+        }
+    }, 1000);
 }
 
 function showQuestion() {
@@ -82,29 +96,54 @@ function showQuestion() {
         var item = question.options[i];
         var answerBtn = document.createElement("button");
         answerBtn.textContent = i + 1 + ". " + item;
-        questionsEl.appendChild(answerBtn);
+        answerBtn.addEventListener("click", function () {
+            checkAnswer(this.textContent);
+        });
+        questionsEl.appendChild(answerBtn); 
     }
-    timerEl.textContent = seconds;
-    var timer = setInterval(function () {
-        seconds--;
-        timerEl.textContent = seconds;
-        if (seconds < 0) {
-            clearInterval(timer)
-        }
-    }, 1000);
+}
+
+function checkAnswer(input) {
+    var correctAnswer = questions[cursor].answer;
+    if (input != correctAnswer) {
+        seconds = Math.max(seconds - 15, 0);
+    }
 }
 
 function endPage() {
     homeEl.style.display = "none";
     quizEl.style.display = "none";
     endEl.style.display = "block";
+    scoresEl.style.display = "none";
 }
 
 function start() {
     homePage();
 }
 
+function scoresPage() {
+    homeEl.style.display = "none";
+    quizEl.style.display = "none";
+    endEl.style.display = "none";
+    scoresEl.style.display = "block";
+    
+}
+
 start();
+
+function handleInitialSubmit(event) {
+    event.preventDefault();
+  
+    var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    var updatedScores = stored.concat({
+      score: score,
+      name: nameInput.value
+    });
+  
+    localStorage.setItem("leaderboard", JSON.stringify(updatedScores));
+  }
+
+
 
 startBtn.addEventListener("click", quizPage);
 quizEl.addEventListener("click", function (event) {
@@ -119,4 +158,5 @@ quizEl.addEventListener("click", function (event) {
     }
 });
 
+submitBtn.addEventListener("click", scoresPage);
 
