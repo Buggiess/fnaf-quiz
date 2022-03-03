@@ -1,8 +1,8 @@
-var goEl = document.querySelector("#go");
+var homeEl = document.querySelector("#home");
 var questionsEl = document.querySelector("#questions");
 var quizEl = document.querySelector("#quiz");
 var endEl = document.querySelector("#end");
-var startBtn = document.querySelector("start");
+var startBtn = document.querySelector("#start");
 var nameInput = document.querySelector("#name");
 var cursor = 0;
 
@@ -59,39 +59,44 @@ var questions = [
     },
 ];
 
-function goPage() {
-    goEl.style.display = "block";
+function homePage() {
+    homeEl.style.display = "block";
     quizEl.style.display = "none";
     endEl.style.display = "none";
 }
 
 function quizPage() {
-    goEl.style.display = "none";
+    homeEl.style.display = "none";
     quizEl.style.display = "block";
     endEl.style.display = "none";
     showQuestion();
 }
 
-function showQuestion() {
-    var question = questions[cursor];
 
+function showQuestion() {
+    
+    var question = questions[cursor];
     for (var i = 0; i < question.options.length; i++) {
         var item = question.options[i];
         var answerBtn = document.createElement("button");
+        var currentQuestion = question.text[i];
+        currentQuestion = i + 1;
         answerBtn.textContent = i + 1 + ". " + item;
         quizEl.appendChild(answerBtn);
     }
 }
 
 function endPage() {
-    goEl.style.display = "none";
+    homeEl.style.display = "none";
     quizEl.style.display = "none";
     endEl.style.display = "block";
 }
 
 function start() {
-    goPage();
+    homePage();
 }
+
+start();
 
 startBtn.addEventListener("click", quizPage);
 quizEl.addEventListener("click", function (event) {
@@ -106,4 +111,4 @@ quizEl.addEventListener("click", function (event) {
     }
 });
 
-start();
+
