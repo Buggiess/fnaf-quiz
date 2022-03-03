@@ -2,6 +2,8 @@ var homeEl = document.querySelector("#home");
 var questionsEl = document.querySelector("#questions");
 var quizEl = document.querySelector("#quiz");
 var endEl = document.querySelector("#end");
+var titleEl = document.querySelector("#title");
+var timerEl = document.querySelector("timer");
 var startBtn = document.querySelector("#start");
 var nameInput = document.querySelector("#name");
 var cursor = 0;
@@ -72,18 +74,24 @@ function quizPage() {
     showQuestion();
 }
 
-
 function showQuestion() {
-    
+    questionsEl.innerHTML = "";
     var question = questions[cursor];
+    titleEl.textContent = question.text;
     for (var i = 0; i < question.options.length; i++) {
         var item = question.options[i];
         var answerBtn = document.createElement("button");
-        var currentQuestion = question.text[i];
-        currentQuestion = i + 1;
         answerBtn.textContent = i + 1 + ". " + item;
-        quizEl.appendChild(answerBtn);
+        questionsEl.appendChild(answerBtn);
     }
+    timerEl.textContent = seconds;
+    var timer = setInterval(function () {
+        seconds--;
+        timerEl.textContent = seconds;
+        if (seconds < 0) {
+            clearInterval(timer)
+        }
+    }, 1000);
 }
 
 function endPage() {
