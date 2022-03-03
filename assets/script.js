@@ -10,6 +10,7 @@ var submitBtn = document.querySelector("#submit");
 var nameInput = document.querySelector("#name");
 var cursor = 0;
 var seconds = 90;
+var scoreEl = document.querySelector("#finalscore");
 
 var questions = [
     {
@@ -116,6 +117,7 @@ function endPage() {
     quizEl.style.display = "none";
     endEl.style.display = "block";
     scoresEl.style.display = "none";
+    finalScore.textContent = `${seconds}`
 }
 
 function start() {
@@ -134,7 +136,6 @@ start();
 
 function handleInitialSubmit(event) {
     event.preventDefault();
-  
     var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
     var updatedScores = stored.concat({
       score: score,
@@ -143,6 +144,9 @@ function handleInitialSubmit(event) {
   
     localStorage.setItem("leaderboard", JSON.stringify(updatedScores));
   }
+
+var leaderboard = localStorage.getItem("leaderboard");
+JSON.parse(leaderboard);
 
 
 
@@ -160,4 +164,5 @@ quizEl.addEventListener("click", function (event) {
 });
 
 submitBtn.addEventListener("click", scoresPage);
+submitBtn.addEventListener
 
