@@ -10,7 +10,8 @@ var submitBtn = document.querySelector("#submit");
 var nameInput = document.querySelector("#name");
 var cursor = 0;
 var seconds = 90;
-var scoreEl = document.querySelector("#finalscore");
+var finalScoreEl = document.querySelector("#finalscore");
+var timer;
 
 var questions = [
     {
@@ -79,7 +80,7 @@ function quizPage() {
     scoresEl.style.display = "none";
     showQuestion();
     timerEl.textContent = seconds;
-    var timer = setInterval(function () {
+    timer = setInterval(function () {
         seconds--;
         timerEl.textContent = seconds;
         if (seconds <= 0) {
@@ -117,7 +118,8 @@ function endPage() {
     quizEl.style.display = "none";
     endEl.style.display = "block";
     scoresEl.style.display = "none";
-    finalScore.textContent = `${seconds}`
+    finalScoreEl.textContent = `${seconds}`;
+    clearInterval(timer);
 }
 
 function start() {
@@ -129,25 +131,28 @@ function scoresPage() {
     quizEl.style.display = "none";
     endEl.style.display = "none";
     scoresEl.style.display = "block";
-    
+    var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    for( var i = 0; i < stored.length; i++){
+        var scoreItem = stored[i];
+        console.log(scoreItem);
+        var pEl = document.createElement("p");
+        pEl.textContent = scoreItem.name + ": " + scoreItem.score
+        scoresEl.append(pEl);
+     }
 }
-
-start();
 
 function handleInitialSubmit(event) {
     event.preventDefault();
     var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
     var updatedScores = stored.concat({
-      score: score,
+      score: finalScoreEl.textContent,
       name: nameInput.value
     });
   
     localStorage.setItem("leaderboard", JSON.stringify(updatedScores));
-  }
 
-var leaderboard = localStorage.getItem("leaderboard");
-JSON.parse(leaderboard);
-
+     scoresPage();
+}
 
 
 startBtn.addEventListener("click", quizPage);
@@ -163,6 +168,6 @@ quizEl.addEventListener("click", function (event) {
     }
 });
 
-submitBtn.addEventListener("click", scoresPage);
-submitBtn.addEventListener
+submitBtn.addEventListener("click", handleInitialSubmit);
 
+start();
