@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/50/000000/five-nights-at-freddys.png"/>
     <title>FNAF Quiz</title>
 </head>
 <body>
@@ -22,17 +23,23 @@
     <div id="questions"></div>
     <div id="timer"></div>
   </div>
-  <div id="end">
-    <h2>Game Over</h2>
-    <div id="finalscore"></div>
-    <div>
-      <label for="name">Name: </label>
-      <input type="text" id="name" />
-      <button id="submit">Submit</button>
+  <!-- class for center-container made to center content on the screen -->
+  <div class="center-container" id="end">
+    <div class="content">
+      <h2 id="game-over">Game Over</h2>
+      <div id="name-input">
+        <label for="name">Name: </label>
+        <!-- autocomplete set to off so it is raw input and not a dropdown -->
+        <input autocomplete="off" type="text" id="name" />
+        <button id="submit">Submit</button>
+      </div>
+      <div id="finalscore"></div>
     </div>
   </div>
-  <div id="scores">
-    <h2>Highscores</h2>
+  <div class="center-container" >
+    <div id="scores">
+      <h2 id="score-header">Highscores</h2>
+    </div>
   </div>
   <script src="./assets/script.js"></script>
 </body>

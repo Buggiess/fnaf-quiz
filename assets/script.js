@@ -79,6 +79,7 @@ function quizPage() {
     endEl.style.display = "none";
     scoresEl.style.display = "none";
     showQuestion();
+    //sets timer on quizpage and when time runs out takes player to endpage
     timerEl.textContent = seconds;
     timer = setInterval(function () {
         seconds--;
@@ -90,6 +91,8 @@ function quizPage() {
     }, 1000);
 }
 
+//shows question and answers
+//button click goes to the next item in the index
 function showQuestion() {
     questionsEl.innerHTML = "";
     var question = questions[cursor];
@@ -104,21 +107,22 @@ function showQuestion() {
         questionsEl.appendChild(answerBtn); 
     }
 }
-
+//checks answer to see if correct
+//takes off 15s if player answer does not equal actual answer
 function checkAnswer(event) {
     var correctAnswer = questions[cursor].answer;
     if (event.target.textContent !== questions[cursor].options[correctAnswer]) {
         seconds = Math.max(seconds - 15, 0);
         console.log(event.target.textContent);
-}
+    }
 }
 
 function endPage() {
     homeEl.style.display = "none";
     quizEl.style.display = "none";
-    endEl.style.display = "block";
+    endEl.style.display = "flex";
     scoresEl.style.display = "none";
-    finalScoreEl.textContent = `${seconds}`;
+    finalScoreEl.textContent = `Score: ${seconds}`;
     clearInterval(timer);
 }
 
@@ -130,8 +134,15 @@ function scoresPage() {
     homeEl.style.display = "none";
     quizEl.style.display = "none";
     endEl.style.display = "none";
-    scoresEl.style.display = "block";
+    scoresEl.style.display = "flex";
+    //stored will grab from the local storage
     var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    //sorts the scores from highest to lowest
+    stored.sort(function(a, b){
+        return(b.score-a.score)
+    });
+    console.log(stored);
+    //adds a p item to the scores page so that scores are displayed on screen and not just in local storage
     for( var i = 0; i < stored.length; i++){
         var scoreItem = stored[i];
         console.log(scoreItem);
@@ -145,7 +156,7 @@ function handleInitialSubmit(event) {
     event.preventDefault();
     var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
     var updatedScores = stored.concat({
-      score: finalScoreEl.textContent,
+      score: `${seconds}`,
       name: nameInput.value
     });
   
@@ -169,5 +180,11 @@ quizEl.addEventListener("click", function (event) {
 });
 
 submitBtn.addEventListener("click", handleInitialSubmit);
-
+//enter key submits name just like button click
+nameInput.addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        submitBtn.click();
+    }
+});
 start();
