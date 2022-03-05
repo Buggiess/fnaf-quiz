@@ -140,7 +140,7 @@ function scoresPage() {
         scoresEl.append(pEl);
      }
 }
-
+//instructor provided
 function handleInitialSubmit(event) {
     event.preventDefault();
     var stored = JSON.parse(localStorage.getItem("leaderboard")) || [];
@@ -154,7 +154,7 @@ function handleInitialSubmit(event) {
      scoresPage();
 }
 
-
+//instructor provided
 startBtn.addEventListener("click", quizPage);
 quizEl.addEventListener("click", function (event) {
     if (event.target.matches("button")) {
