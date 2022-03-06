@@ -12,11 +12,11 @@ This is a quiz based on the video game Five Night's at Freddy's. I have used van
 
 ## Visuals
 
-![webpagescreenshot1](./assets/images/fnafquizstart.png)
-![webpagescreenshot1](./assets/images/fnafquizquest.png)
-![webpagescreenshot1](./assets/images/fnafquizend.png)
-![webpagescreenshot1](./assets/images/fnafquizhs.png)
-![webpagescreenshot1](./assets/images/fnafquizgif.gif)
+![startpage](./assets/images/fnafquizstart.png)
+![quizpage](./assets/images/fnafquizquest.png)
+![endpage](./assets/images/fnafquizend.png)
+![highscores](./assets/images/fnafquizhs.png)
+![webpagegif](./assets/images/fnafquizgif.gif)
 
 ## Links
 
